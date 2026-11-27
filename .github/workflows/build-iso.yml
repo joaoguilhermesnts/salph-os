@@ -104,6 +104,7 @@ jobs:
           EOF
           gh release delete "v$V" --yes --cleanup-tag 2>/dev/null || true
           shopt -s nullglob
-          FILES=(./*.part* ./*.sha256 ./*.packages)
+          # *.part[0-9][0-9]: não pode casar com *.parts.sha256 (já incluso em *.sha256)
+          FILES=(./*.part[0-9][0-9] ./*.sha256 ./*.packages)
           gh release create "v$V" --prerelease --title "SALPH OS $V" --notes-file notes.md \
             --target "${{ github.sha }}" "${FILES[@]}"

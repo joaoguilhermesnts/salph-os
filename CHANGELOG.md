@@ -3,8 +3,7 @@
 ## Português (Brasil)
 
 ### 0.1.0 — não publicada
-Primeira versão do SALPH OS, baseado em Debian 13 "trixie" (point release:
-confirmar em `/usr/share/salph-os/build-info` no build final).
+Primeira versão do SALPH OS, baseado em Debian 13.8 "trixie", kernel 7.3 (backports).
 
 **Sistema**
 - Debian 13 amd64 com atualizações de segurança; kernel do trixie-backports
@@ -46,8 +45,7 @@ confirmar em `/usr/share/salph-os/build-info` no build final).
 ## English (US)
 
 ### 0.1.0 — unreleased
-First release of SALPH OS, based on Debian 13 "trixie" (point release: check
-`/usr/share/salph-os/build-info` in the final build).
+First release of SALPH OS, based on Debian 13.8 "trixie", kernel 7.3 (backports).
 
 **System**
 - Debian 13 amd64 with security updates; trixie-backports kernel (7.x series)
