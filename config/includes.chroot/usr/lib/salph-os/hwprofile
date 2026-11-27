@@ -1,0 +1,41 @@
+#!/bin/sh
+# SALPH OS — detecta notebook e aplica o perfil de energia correspondente.
+# Executado a cada boot por salph-hwprofile.service.
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -u
+
+is_laptop() {
+	# Tipos SMBIOS: 8 portátil, 9 laptop, 10 notebook, 11 handheld,
+	# 14 sub-notebook, 30 tablet, 31 conversível, 32 destacável.
+	case "$(cat /sys/class/dmi/id/chassis_type 2>/dev/null)" in
+		8|9|10|11|14|30|31|32) return 0 ;;
+	esac
+	# Alternativa: bateria do sistema (ignora baterias de mouse/fone, scope=Device).
+	for ps in /sys/class/power_supply/*; do
+		[ -r "$ps/type" ] || continue
+		if [ "$(cat "$ps/type")" = "Battery" ] && [ "$(cat "$ps/scope" 2>/dev/null)" != "Device" ]; then
+			return 0
+		fi
+	done
+	return 1
+}
+
+mkdir -p /run/salph-os
+
+if is_laptop; then
+	echo laptop > /run/salph-os/chassis
+	# Gravação de cache em disco menos frequente: menos acordadas do SSD.
+	sysctl -q -w vm.dirty_writeback_centisecs=1500
+	# Economia de energia do áudio HDA após 1 s ocioso.
+	if [ -w /sys/module/snd_hda_intel/parameters/power_save ]; then
+		echo 1 > /sys/module/snd_hda_intel/parameters/power_save
+	fi
+	# thermald só faz sentido em CPUs Intel.
+	if grep -q GenuineIntel /proc/cpuinfo; then
+		systemctl start thermald.service 2>/dev/null || true
+	fi
+	echo "salph-hwprofile: laptop profile applied"
+else
+	echo desktop > /run/salph-os/chassis
+	echo "salph-hwprofile: desktop profile (no changes)"
+fi

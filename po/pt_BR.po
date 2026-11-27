@@ -1,0 +1,119 @@
+# Tradução pt-BR do SALPH OS.
+# This file is distributed under the same license as the SALPH OS package.
+msgid ""
+msgstr ""
+"Project-Id-Version: SALPH OS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-27 14:51-0300\n"
+"PO-Revision-Date: 2026-11-27 14:30-0300\n"
+"Last-Translator: SALPH OS project\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/salph-drivers:13
+msgid "Usage: salph-drivers [--check|--install-nvidia|--notify]"
+msgstr "Uso: salph-drivers [--check|--install-nvidia|--notify]"
+
+#: src/salph-drivers:14
+msgid "  --check           show the graphics cards and the recommended driver"
+msgstr "  --check           mostra as placas de vídeo e o driver recomendado"
+
+#: src/salph-drivers:15
+msgid "  --install-nvidia  install the proprietary NVIDIA driver (needs administrator)"
+msgstr "  --install-nvidia  instala o driver proprietário NVIDIA (requer administrador)"
+
+#: src/salph-drivers:16
+msgid "  --notify          desktop notification if an NVIDIA card has no driver"
+msgstr "  --notify          notifica na área de trabalho se uma placa NVIDIA estiver sem driver"
+
+#: src/salph-drivers:33
+msgid "Graphics cards:"
+msgstr "Placas de vídeo:"
+
+#: src/salph-drivers:36
+msgid "No NVIDIA card found. The free drivers already included are the right choice."
+msgstr "Nenhuma placa NVIDIA encontrada. Os drivers livres já incluídos são a escolha certa."
+
+#: src/salph-drivers:38
+msgid "The NVIDIA proprietary driver is installed."
+msgstr "O driver proprietário NVIDIA está instalado."
+
+#: src/salph-drivers:40
+msgid "NVIDIA card found. To install the proprietary driver run:"
+msgstr "Placa NVIDIA encontrada. Para instalar o driver proprietário, execute:"
+
+#: src/salph-drivers:51
+msgid "No NVIDIA card found; nothing to do."
+msgstr "Nenhuma placa NVIDIA encontrada; nada a fazer."
+
+#: src/salph-drivers:64
+msgid "This card is not supported by the driver available in SALPH OS. Keep the free driver."
+msgstr "Esta placa não é suportada pelo driver disponível no SALPH OS. Mantenha o driver livre."
+
+#: src/salph-drivers:69
+msgid "The NVIDIA kernel module failed to build. See: dkms status"
+msgstr "Falha ao compilar o módulo NVIDIA do kernel. Veja: dkms status"
+
+#: src/salph-drivers:73
+msgid "Secure Boot is on: the driver key must be enrolled once."
+msgstr "O Secure Boot está ativo: a chave do driver precisa ser registrada uma vez."
+
+#: src/salph-drivers:74
+msgid "Choose a temporary password now; after rebooting, pick 'Enroll MOK' on the blue screen and type it."
+msgstr "Escolha uma senha temporária agora; depois de reiniciar, selecione 'Enroll MOK' na tela azul e digite-a."
+
+#: src/salph-drivers:76
+msgid "Run later: sudo mokutil --import /var/lib/dkms/mok.pub"
+msgstr "Execute depois: sudo mokutil --import /var/lib/dkms/mok.pub"
+
+#: src/salph-drivers:79
+msgid "Done. Restart the computer to use the NVIDIA driver."
+msgstr "Pronto. Reinicie o computador para usar o driver NVIDIA."
+
+#: src/salph-drivers:92
+msgid "NVIDIA graphics card detected"
+msgstr "Placa de vídeo NVIDIA detectada"
+
+#: src/salph-drivers:93
+msgid "An optional proprietary driver is available. Open a terminal and run: salph-drivers --install-nvidia"
+msgstr "Há um driver proprietário opcional disponível. Abra um terminal e execute: salph-drivers --install-nvidia"
+
+#: src/salph-install:13
+msgid "The installer only runs from the SALPH OS live session."
+msgstr "O instalador só funciona na sessão live do SALPH OS."
+
+#: src/salph-locale:13
+msgid "Usage: salph-locale <pt-BR|en-US> [--keyboard br|us] [--user-only]"
+msgstr "Uso: salph-locale <pt-BR|en-US> [--keyboard br|us] [--user-only]"
+
+#: src/salph-locale:14
+msgid "  pt-BR        Brazilian Portuguese"
+msgstr "  pt-BR        Português (Brasil)"
+
+#: src/salph-locale:15
+msgid "  en-US        English (United States)"
+msgstr "  en-US        Inglês (Estados Unidos)"
+
+#: src/salph-locale:16
+msgid "  --keyboard   also change the keyboard layout"
+msgstr "  --keyboard   também altera o layout do teclado"
+
+#: src/salph-locale:17
+msgid "  --user-only  change only the current user, not the system default"
+msgstr "  --user-only  altera só o usuário atual, não o padrão do sistema"
+
+#: src/salph-locale:41
+msgid "Unsupported keyboard layout: %s"
+msgstr "Layout de teclado não suportado: %s"
+
+#: src/salph-locale:60
+msgid "Language set to %s."
+msgstr "Idioma definido como %s."
+
+#: src/salph-locale:61
+msgid "Log out and log back in to apply the change."
+msgstr "Saia da sessão e entre novamente para aplicar a mudança."

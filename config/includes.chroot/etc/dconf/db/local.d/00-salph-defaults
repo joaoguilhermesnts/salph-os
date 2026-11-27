@@ -1,0 +1,81 @@
+# SALPH OS — padrões da sessão GNOME. Não são travados: o usuário pode mudar tudo.
+# Compilado por `dconf update` (hook 0300-salph-desktop).
+
+[org/gnome/shell]
+enabled-extensions=['salph-look@salph-os.org', 'dash-to-dock@micxgx.gmail.com', 'blur-my-shell@aunetx', 'appindicatorsupport@rgcjonas.gmail.com']
+favorite-apps=['firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Console.desktop', 'org.gnome.Terminal.desktop', 'libreoffice-writer.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Software.desktop', 'org.gnome.Settings.desktop']
+
+# Botões de janela à esquerda
+[org/gnome/desktop/wm/preferences]
+button-layout='close,minimize,maximize:'
+titlebar-font='Inter Semi-Bold 11'
+
+[org/gnome/desktop/interface]
+font-name='Inter 11'
+document-font-name='Inter 11'
+monospace-font-name='JetBrains Mono 10'
+font-antialiasing='grayscale'
+font-hinting='slight'
+accent-color='blue'
+clock-show-weekday=true
+show-battery-percentage=true
+cursor-size=24
+
+[org/gnome/desktop/background]
+picture-uri='file:///usr/share/backgrounds/salph/salph-dunes-day.svg'
+picture-uri-dark='file:///usr/share/backgrounds/salph/salph-dunes-night.svg'
+picture-options='zoom'
+primary-color='#3a6ea5'
+
+[org/gnome/desktop/screensaver]
+picture-uri='file:///usr/share/backgrounds/salph/salph-dunes-night.svg'
+picture-options='zoom'
+
+[org/gnome/desktop/sound]
+theme-name='salph'
+event-sounds=true
+
+[org/gnome/mutter]
+center-new-windows=true
+edge-tiling=true
+
+[org/gnome/desktop/peripherals/touchpad]
+tap-to-click=true
+natural-scroll=true
+two-finger-scrolling-enabled=true
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+
+# Dock inferior
+[org/gnome/shell/extensions/dash-to-dock]
+dock-position='BOTTOM'
+dock-fixed=false
+intellihide=true
+intellihide-mode='FOCUS_APPLICATION_WINDOWS'
+autohide=true
+extend-height=false
+height-fraction=0.9
+dash-max-icon-size=48
+icon-size-fixed=false
+show-trash=true
+show-mounts=false
+show-apps-at-top=false
+show-show-apps-button=true
+click-action='minimize-or-previews'
+scroll-action='cycle-windows'
+running-indicator-style='DOTS'
+apply-custom-theme=false
+custom-theme-shrink=true
+transparency-mode='FIXED'
+background-opacity=0.55
+multi-monitor=false
+hot-keys=false
+
+# Desfoque na barra superior e na visão geral; a dock usa o próprio fundo
+[org/gnome/shell/extensions/blur-my-shell/panel]
+blur=true
+static-blur=true
+
+[org/gnome/shell/extensions/blur-my-shell/dash-to-dock]
+blur=false

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=SALPH OS driver check
+Name[pt_BR]=Verificação de drivers do SALPH OS
+Exec=salph-drivers --notify
+OnlyShowIn=GNOME;
+NoDisplay=true
+X-GNOME-Autostart-Phase=Applications
+X-GNOME-Autostart-Delay=20

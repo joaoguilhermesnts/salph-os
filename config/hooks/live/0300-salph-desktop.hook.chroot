@@ -1,0 +1,36 @@
+#!/bin/sh
+# Aplica padrões do desktop, identidade do sistema e Flathub.
+set -e
+
+# 1. Padrões GNOME (sessão e tela de login)
+dconf update
+
+# 2. Identidade: "SALPH OS, baseado em Debian".
+#    os-release é desviado (dpkg-divert) para que atualizações do base-files
+#    não o sobrescrevam; VERSION_CODENAME continua "trixie" para repositórios
+#    de terceiros e ID_LIKE=debian para scripts que detectam a família.
+SALPH_VERSION="$(cat /usr/share/salph-os/version 2>/dev/null || echo dev)"
+DEBIAN_VERSION="$(cat /etc/debian_version)"
+if ! dpkg-divert --list /usr/lib/os-release | grep -q salph; then
+	dpkg-divert --package salph-os --divert /usr/lib/os-release.debian --rename --add /usr/lib/os-release
+fi
+cat > /usr/lib/os-release <<EOF
+PRETTY_NAME="SALPH OS ${SALPH_VERSION} (baseado em Debian ${DEBIAN_VERSION})"
+NAME="SALPH OS"
+VERSION_ID="${SALPH_VERSION}"
+VERSION="${SALPH_VERSION}"
+VERSION_CODENAME=trixie
+DEBIAN_VERSION_FULL=${DEBIAN_VERSION}
+ID=salph
+ID_LIKE=debian
+LOGO=salph-os
+EOF
+# HOME_URL/SUPPORT_URL/BUG_REPORT_URL: adicionar quando o projeto tiver site
+# ou repositório público próprio (não usar domínio que não seja do projeto).
+ln -sf ../usr/lib/os-release /etc/os-release
+
+# 3. Flathub (fonte de terceiros, habilitada por decisão 0006)
+flatpak remote-add --system --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+# 4. Ícones/caches
+gtk-update-icon-cache -q -f /usr/share/icons/hicolor 2>/dev/null || true

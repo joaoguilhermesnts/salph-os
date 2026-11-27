@@ -1,0 +1,71 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * SALPH Look — camada sobre o tema padrão do GNOME Shell 48.
+ * Barra superior compacta, menus arredondados e dock em "vidro".
+ * Só ajustes de forma e tipografia; cores seguem o tema/acento do sistema,
+ * então modo claro/escuro continuam funcionando.
+ */
+
+/* Barra superior */
+#panel {
+  font-family: "Inter", sans-serif;
+  font-size: 10.5pt;
+  font-weight: 600;
+  height: 30px;
+}
+
+#panel .panel-button {
+  border-radius: 7px;
+  margin: 3px 1px;
+  padding: 0 9px;
+  -natural-hpadding: 9px;
+  -minimum-hpadding: 6px;
+}
+
+#panel .panel-button .clock {
+  font-feature-settings: "tnum";
+  font-weight: 600;
+}
+
+/* Menus e painéis suspensos */
+.popup-menu-content,
+.quick-settings,
+.calendar-menu .datemenu-popover {
+  border-radius: 14px;
+  padding: 6px;
+}
+
+.popup-menu-item {
+  border-radius: 7px;
+}
+
+.quick-settings .quick-toggle {
+  border-radius: 12px;
+}
+
+/* Diálogos (desligar, autenticação) */
+.modal-dialog {
+  border-radius: 18px;
+}
+
+/* Dock (Dash to Dock) */
+#dashtodockContainer #dash .dash-background {
+  border-radius: 20px;
+  margin: 0 0 6px 0;
+}
+
+#dashtodockContainer .dash-item-container .app-well-app .overview-icon,
+#dashtodockContainer .show-apps .overview-icon {
+  border-radius: 12px;
+}
+
+/* Pontos de janela aberta mais discretos */
+#dashtodockContainer .app-well-app-running-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+/* Visão geral: busca arredondada */
+.search-entry {
+  border-radius: 12px;
+}

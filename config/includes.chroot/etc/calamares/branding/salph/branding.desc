@@ -1,0 +1,43 @@
+# SALPH OS — branding do Calamares. @VERSION@ é substituído no build
+# (hook 0500-salph-installer).
+---
+componentName:  salph
+
+welcomeStyleCalamares:   false
+welcomeExpandingLogo:    true
+windowExpanding:    normal
+windowSize: 920px,640px
+windowPlacement: center
+sidebar: widget
+navigation: widget
+
+strings:
+    productName:         "SALPH OS"
+    shortProductName:    "SALPH OS"
+    version:             "@VERSION@"
+    shortVersion:        "@VERSION@"
+    versionedName:       "SALPH OS @VERSION@"
+    shortVersionedName:  "SALPH OS @VERSION@"
+    bootloaderEntryName: "SALPH OS"
+    productUrl:          ""
+    supportUrl:          ""
+    knownIssuesUrl:      ""
+    releaseNotesUrl:     ""
+    donateUrl:           ""
+
+images:
+    productLogo:         "logo.png"
+    productIcon:         "logo.png"
+    productWelcome:      "welcome.png"
+
+slideshow:               "show.qml"
+slideshowAPI:            2
+
+style:
+    sidebarBackground:        "#1b2156"
+    sidebarText:              "#ffffff"
+    sidebarTextCurrent:       "#ffffff"
+    sidebarBackgroundCurrent: "#3b4bb0"
+
+uploadServer:
+    type:    "none"

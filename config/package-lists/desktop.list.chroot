@@ -1,0 +1,22 @@
+# Ambiente gráfico (Phase 3) — GNOME 48 do trixie, só pacotes Debian main.
+gnome-core
+gdm3
+dconf-cli
+pipewire-audio
+wireplumber
+librsvg2-common
+
+# Extensões (versões empacotadas pelo Debian, compatíveis com GNOME 48)
+gnome-shell-extension-dashtodock
+gnome-shell-extension-blur-my-shell
+gnome-shell-extension-appindicator
+gnome-shell-extension-prefs
+
+# Fontes (SIL OFL 1.1)
+fonts-inter
+fonts-jetbrains-mono
+fonts-cantarell
+fonts-noto-color-emoji
+
+# Sons (fallback do tema de sons SALPH)
+sound-theme-freedesktop

@@ -1,0 +1,14 @@
+[Unit]
+Description=SALPH OS first boot setup (firewall)
+ConditionPathExists=!/var/lib/salph-os/firstboot-done
+After=local-fs.target
+Before=network-pre.target
+Wants=network-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/salph-os/firstboot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

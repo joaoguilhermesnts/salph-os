@@ -1,0 +1,17 @@
+# Sistema base / base system
+live-boot
+live-config
+live-config-systemd
+systemd-sysv
+linux-image-amd64
+sudo
+locales
+keyboard-configuration
+console-setup
+tzdata
+ca-certificates
+curl
+nano
+less
+bash-completion
+network-manager

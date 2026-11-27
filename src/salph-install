@@ -1,0 +1,27 @@
+#!/bin/sh
+# salph-install — abre o instalador (Calamares) a partir da sessão live.
+# salph-install — starts the installer (Calamares) from the live session.
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -e
+
+. gettext.sh
+TEXTDOMAIN=salph-os
+TEXTDOMAINDIR=/usr/share/locale
+export TEXTDOMAIN TEXTDOMAINDIR
+
+if [ ! -d /run/live/medium ]; then
+	msg="$(gettext 'The installer only runs from the SALPH OS live session.')"
+	echo "$msg" >&2
+	notify-send --app-name="SALPH OS" --icon=salph-os "$msg" 2>/dev/null || true
+	exit 1
+fi
+
+# O Calamares roda como root dentro da sessão do usuário live:
+# Wayland nativo quando disponível, X11 (XWayland) como alternativa.
+if [ -n "${WAYLAND_DISPLAY:-}" ]; then
+	export QT_QPA_PLATFORM="wayland;xcb"
+fi
+xhost +si:localuser:root >/dev/null 2>&1 || true
+
+# O usuário live tem sudo sem senha (live-config).
+exec sudo -E calamares "$@"

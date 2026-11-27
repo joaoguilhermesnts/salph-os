@@ -1,0 +1,51 @@
+#!/bin/sh
+# SALPH OS — etapa do Calamares antes do initramfs (shellprocess@salph-prepare).
+# Uso: prepare <raiz-do-alvo>
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -eu
+
+ROOT="${1:?target root required}"
+[ -d "$ROOT/etc" ] || { echo "salph-prepare: invalid target $ROOT" >&2; exit 1; }
+
+log() { echo "salph-prepare: $*"; }
+in_target() { chroot "$ROOT" /usr/bin/env DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 "$@"; }
+
+# 1. Kernel em /boot. O live-build pode deixar o kernel só na mídia (/live).
+KVER="$(ls "$ROOT/lib/modules" | sort -V | tail -n1)"
+if [ ! -e "$ROOT/boot/vmlinuz-$KVER" ]; then
+	for k in "/run/live/medium/live/vmlinuz-$KVER" /run/live/medium/live/vmlinuz; do
+		if [ -f "$k" ]; then
+			log "copying kernel $k -> /boot/vmlinuz-$KVER"
+			install -m 0644 "$k" "$ROOT/boot/vmlinuz-$KVER"
+			break
+		fi
+	done
+fi
+[ -e "$ROOT/boot/vmlinuz-$KVER" ] || { echo "salph-prepare: kernel $KVER not found" >&2; exit 1; }
+
+# 2. Remove o que só serve na sessão live.
+log "removing live-only packages"
+in_target apt-get -y purge live-boot live-boot-initramfs-tools live-config live-config-systemd calamares || true
+in_target apt-get -y autoremove --purge || true
+rm -rf "$ROOT/etc/calamares" \
+	"$ROOT/lib/live/config/1200-salph-skip-initial-setup" \
+	"$ROOT/lib/live/config/1210-salph-live-dock" \
+	"$ROOT/usr/bin/salph-install" \
+	"$ROOT/usr/share/applications/salph-install.desktop" \
+	"$ROOT/usr/local/share/applications/calamares.desktop"
+
+# 3. Garante os dois idiomas suportados (o localecfg ativa só o escolhido).
+sed -i -E 's/^# *(pt_BR\.UTF-8 UTF-8)/\1/; s/^# *(en_US\.UTF-8 UTF-8)/\1/' "$ROOT/etc/locale.gen"
+in_target locale-gen
+
+# 4. Metapacote do GRUB conforme o firmware (pacotes guardados no squashfs).
+if [ -d /sys/firmware/efi ]; then
+	log "UEFI: installing grub-efi-amd64"
+	in_target sh -c 'echo "grub-efi-amd64 grub2/force_efi_extra_removable boolean true" | debconf-set-selections'
+	in_target sh -c 'dpkg -i /var/cache/salph-os/bootloader/grub-efi-amd64_*.deb'
+else
+	log "BIOS: installing grub-pc"
+	in_target sh -c 'dpkg -i /var/cache/salph-os/bootloader/grub-pc_*.deb'
+fi
+
+log "done"

@@ -1,0 +1,102 @@
+#!/bin/sh
+# salph-drivers — detecta GPU NVIDIA e instala o driver proprietário opcional.
+# salph-drivers — detects an NVIDIA GPU and installs the optional proprietary driver.
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -e
+
+. gettext.sh
+TEXTDOMAIN=salph-os
+TEXTDOMAINDIR=/usr/share/locale
+export TEXTDOMAIN TEXTDOMAINDIR
+
+usage() {
+	gettext "Usage: salph-drivers [--check|--install-nvidia|--notify]"; echo
+	gettext "  --check           show the graphics cards and the recommended driver"; echo
+	gettext "  --install-nvidia  install the proprietary NVIDIA driver (needs administrator)"; echo
+	gettext "  --notify          desktop notification if an NVIDIA card has no driver"; echo
+}
+
+nvidia_gpus() {
+	# Classe 03xx = vídeo; vendor 10de = NVIDIA.
+	lspci -nn 2>/dev/null | grep -E '\[03[0-9a-f]{2}\]' | grep -i '\[10de:' || true
+}
+
+nvidia_installed() {
+	dpkg-query -W -f='${Status}' nvidia-driver 2>/dev/null | grep -q 'install ok installed'
+}
+
+kernel_from_backports() {
+	dpkg-query -W -f='${Version}' linux-image-amd64 2>/dev/null | grep -q 'bpo'
+}
+
+cmd_check() {
+	gettext "Graphics cards:"; echo
+	lspci -nn 2>/dev/null | grep -E '\[03[0-9a-f]{2}\]' | sed 's/^/  /'
+	if [ -z "$(nvidia_gpus)" ]; then
+		gettext "No NVIDIA card found. The free drivers already included are the right choice."; echo
+	elif nvidia_installed; then
+		gettext "The NVIDIA proprietary driver is installed."; echo
+	else
+		gettext "NVIDIA card found. To install the proprietary driver run:"; echo
+		echo "  salph-drivers --install-nvidia"
+	fi
+}
+
+cmd_install_nvidia() {
+	if [ "$(id -u)" -ne 0 ]; then
+		# pkexec limpa o ambiente; repassa o idioma para as mensagens.
+		exec pkexec env LANG="${LANG:-C.UTF-8}" LANGUAGE="${LANGUAGE:-}" "$(readlink -f "$0")" --install-nvidia
+	fi
+	if [ -z "$(nvidia_gpus)" ]; then
+		gettext "No NVIDIA card found; nothing to do."; echo
+		exit 0
+	fi
+	export DEBIAN_FRONTEND=noninteractive
+	apt-get update
+	# O driver deve vir do mesmo repositório que o kernel para o DKMS compilar.
+	TARGET=""
+	if kernel_from_backports; then
+		TARGET="-t trixie-backports"
+	fi
+	apt-get install -y $TARGET nvidia-detect
+	if ! nvidia-detect | grep -q 'nvidia-driver'; then
+		nvidia-detect || true
+		gettext "This card is not supported by the driver available in SALPH OS. Keep the free driver."; echo
+		exit 1
+	fi
+	apt-get install -y $TARGET linux-headers-amd64 nvidia-driver firmware-misc-nonfree
+	if ! dkms status 2>/dev/null | grep -q 'nvidia.*installed'; then
+		gettext "The NVIDIA kernel module failed to build. See: dkms status"; echo
+		exit 1
+	fi
+	if mokutil --sb-state 2>/dev/null | grep -qi 'enabled'; then
+		gettext "Secure Boot is on: the driver key must be enrolled once."; echo
+		gettext "Choose a temporary password now; after rebooting, pick 'Enroll MOK' on the blue screen and type it."; echo
+		mokutil --import /var/lib/dkms/mok.pub || {
+			gettext "Run later: sudo mokutil --import /var/lib/dkms/mok.pub"; echo
+		}
+	fi
+	gettext "Done. Restart the computer to use the NVIDIA driver."; echo
+}
+
+cmd_notify() {
+	# Não sugere instalação na sessão live.
+	[ -d /run/live/medium ] && exit 0
+	marker="${XDG_CONFIG_HOME:-$HOME/.config}/salph-os/nvidia-notified"
+	[ -e "$marker" ] && exit 0
+	[ -n "$(nvidia_gpus)" ] || exit 0
+	nvidia_installed && exit 0
+	mkdir -p "$(dirname "$marker")"
+	touch "$marker"
+	notify-send --app-name="SALPH OS" --icon=salph-os \
+		"$(gettext 'NVIDIA graphics card detected')" \
+		"$(gettext 'An optional proprietary driver is available. Open a terminal and run: salph-drivers --install-nvidia')"
+}
+
+case "${1:-}" in
+	--check|"")       cmd_check ;;
+	--install-nvidia) cmd_install_nvidia ;;
+	--notify)         cmd_notify ;;
+	-h|--help)        usage ;;
+	*)                usage >&2; exit 2 ;;
+esac

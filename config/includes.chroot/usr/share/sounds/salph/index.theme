@@ -1,0 +1,8 @@
+[Sound Theme]
+Name=SALPH
+Comment=Sons originais do SALPH OS / SALPH OS original sounds
+Inherits=freedesktop
+Directories=stereo
+
+[stereo]
+OutputProfile=stereo

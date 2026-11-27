@@ -1,0 +1,13 @@
+#!/bin/sh
+# live-config: pula o GNOME Initial Setup na sessão live (só roda no sistema
+# instalado, no primeiro login). O Calamares copia o squashfs, não /home da
+# sessão live, então este arquivo não vai para a instalação.
+set -e
+
+LIVE_USERNAME="${LIVE_USERNAME:-salph}"
+HOME_DIR="/home/${LIVE_USERNAME}"
+
+[ -d "${HOME_DIR}" ] || exit 0
+install -d -o "${LIVE_USERNAME}" -g "${LIVE_USERNAME}" "${HOME_DIR}/.config"
+echo yes > "${HOME_DIR}/.config/gnome-initial-setup-done"
+chown "${LIVE_USERNAME}:${LIVE_USERNAME}" "${HOME_DIR}/.config/gnome-initial-setup-done"

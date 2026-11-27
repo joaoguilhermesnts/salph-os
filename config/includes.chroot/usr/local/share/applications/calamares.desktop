@@ -1,0 +1,6 @@
+[Desktop Entry]
+# Esconde o atalho genérico do Calamares; o SALPH OS usa salph-install.desktop.
+Type=Application
+Name=Calamares
+Exec=salph-install
+NoDisplay=true

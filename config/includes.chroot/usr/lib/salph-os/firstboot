@@ -1,0 +1,17 @@
+#!/bin/sh
+# SALPH OS — configuração de primeiro boot (firewall).
+# Executado uma vez por salph-firstboot.service.
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -e
+
+# Firewall: bloqueia conexões de entrada, libera saída.
+# mDNS (5353/udp) liberado para descoberta de impressoras e dispositivos na rede.
+ufw --force reset >/dev/null
+ufw default deny incoming
+ufw default allow outgoing
+ufw allow in 5353/udp comment 'mDNS'
+ufw logging low
+ufw --force enable
+
+mkdir -p /var/lib/salph-os
+touch /var/lib/salph-os/firstboot-done

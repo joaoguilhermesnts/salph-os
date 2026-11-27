@@ -1,0 +1,30 @@
+# Instalador (Phase 5) — Calamares 3.3 (Qt6) com configuração própria.
+# Não usamos calamares-settings-debian: traz marca Debian em /etc/calamares
+# e depende de módulos QML do Qt5.
+calamares
+qt6-wayland
+x11-xserver-utils
+rsync
+squashfs-tools
+
+# Sistemas de arquivos e criptografia oferecidos no particionador
+dosfstools
+btrfs-progs
+xfsprogs
+cryptsetup
+cryptsetup-initramfs
+
+# GRUB para os dois modos de firmware. Os metapacotes grub-pc / grub-efi-amd64
+# são conflitantes e são instalados no alvo pelo script do instalador.
+grub2-common
+grub-common
+grub-pc-bin
+grub-efi-amd64-bin
+grub-efi-amd64-signed
+shim-signed
+efibootmgr
+os-prober
+
+# Tela de boot
+plymouth
+plymouth-themes

@@ -1,0 +1,13 @@
+#!/bin/sh
+# Registra a point release real do Debian usada no build (ex.: 13.8).
+# Records the actual Debian point release used for the build.
+set -e
+mkdir -p /usr/share/salph-os
+{
+	# Variáveis do host não entram no chroot; a versão vem de um include gerado pelo build.sh.
+	echo "SALPH_VERSION=$(cat /usr/share/salph-os/version 2>/dev/null || echo dev)"
+	echo "DEBIAN_VERSION=$(cat /etc/debian_version)"
+	echo "KERNEL=$(ls /lib/modules | sort -V | tail -n1)"
+	echo "BUILD_DATE=$(date -u ${SOURCE_DATE_EPOCH:+-d @$SOURCE_DATE_EPOCH} +%Y-%m-%dT%H:%M:%SZ)"
+} > /usr/share/salph-os/build-info
+cat /usr/share/salph-os/build-info

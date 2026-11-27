@@ -1,0 +1,48 @@
+#!/bin/sh
+# SALPH OS — etapa do Calamares depois do bootloader (shellprocess@salph-finish).
+# Uso: finish <raiz-do-alvo>
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -eu
+
+ROOT="${1:?target root required}"
+log() { echo "salph-finish: $*"; }
+in_target() { chroot "$ROOT" /usr/bin/env DEBIAN_FRONTEND=noninteractive LANG=C.UTF-8 "$@"; }
+
+# Disco físico que contém a raiz do alvo (atravessa LUKS/LVM).
+root_disk() {
+	src="$(findmnt -no SOURCE "$ROOT" | sed 's/\[.*\]$//')"
+	lsblk -nspo NAME,TYPE "$src" | awk '$2 == "disk" { print $1; exit }'
+}
+
+# Caminho estável /dev/disk/by-id/... para o debconf do grub-pc.
+stable_path() {
+	for l in /dev/disk/by-id/*; do
+		case "$l" in *-part*) continue ;; esac
+		[ "$(readlink -f "$l")" = "$1" ] && { echo "$l"; return; }
+	done
+	echo "$1"
+}
+
+if [ -d /sys/firmware/efi ]; then
+	# Cópia do shim + GRUB em EFI/BOOT/BOOTX64.EFI para firmwares que perdem
+	# a entrada da NVRAM (comum em notebooks e no Ventoy/VMs).
+	log "UEFI: installing removable-media fallback"
+	in_target grub-install --target=x86_64-efi --efi-directory=/boot/efi \
+		--bootloader-id=salph --force-extra-removable --no-nvram
+else
+	DISK="$(root_disk)"
+	if [ -n "$DISK" ]; then
+		DEV="$(stable_path "$DISK")"
+		log "BIOS: recording grub-pc install device $DEV"
+		# Sem isso, a próxima atualização do grub-pc pergunta onde instalar.
+		in_target sh -c "echo 'grub-pc grub-pc/install_devices multiselect $DEV' | debconf-set-selections"
+		in_target sh -c "echo 'grub-pc grub-pc/install_devices_empty boolean false' | debconf-set-selections"
+	else
+		log "WARNING: could not determine the boot disk" >&2
+	fi
+fi
+
+in_target update-grub
+
+rm -rf "$ROOT/var/cache/salph-os/bootloader"
+log "done"

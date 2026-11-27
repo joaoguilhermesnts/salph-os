@@ -1,0 +1,44 @@
+#!/bin/sh
+# Adiciona entradas "English (US)" aos menus de boot da ISO (UEFI e BIOS).
+# A entrada padrão (pt-BR) vem de --bootappend-live em auto/config.
+set -e
+
+[ -d binary ] && cd binary
+
+# Nomes reais na mídia (o live-build pode usar vmlinuz ou vmlinuz-<versão>).
+KERNEL="/$(ls -1 live/vmlinuz* 2>/dev/null | sort -V | tail -n1)"
+INITRD="/$(ls -1 live/initrd.img* 2>/dev/null | sort -V | tail -n1)"
+if [ "$KERNEL" = "/" ] || [ "$INITRD" = "/" ]; then
+	echo "salph: WARNING kernel/initrd not found under live/; skipping en-US entries" >&2
+	exit 0
+fi
+APPEND_EN="boot=live components quiet splash locales=en_US.UTF-8 keyboard-layouts=us timezone=America/Sao_Paulo username=salph hostname=salph-os"
+
+# GRUB (UEFI)
+if [ -f boot/grub/grub.cfg ]; then
+	cat >> boot/grub/grub.cfg <<EOF
+
+menuentry "SALPH OS Live (English, US)" {
+	linux ${KERNEL} ${APPEND_EN}
+	initrd ${INITRD}
+}
+EOF
+	echo "salph: GRUB en-US entry added"
+else
+	echo "salph: WARNING boot/grub/grub.cfg not found" >&2
+fi
+
+# ISOLINUX (BIOS legado)
+if [ -f isolinux/live.cfg ]; then
+	cat >> isolinux/live.cfg <<EOF
+
+label live-en_US
+	menu label SALPH OS Live (English, US)
+	linux ${KERNEL}
+	initrd ${INITRD}
+	append ${APPEND_EN}
+EOF
+	echo "salph: ISOLINUX en-US entry added"
+else
+	echo "salph: WARNING isolinux/live.cfg not found" >&2
+fi

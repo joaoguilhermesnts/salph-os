@@ -1,0 +1,6 @@
+# Scripts precisam de LF mesmo quando editados no Windows.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ogg binary
+*.iso binary

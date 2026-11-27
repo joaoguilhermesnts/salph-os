@@ -1,0 +1,27 @@
+#!/bin/sh
+# Padrões de idioma, teclado e fuso do sistema instalado.
+# A sessão live usa os parâmetros de boot (live-config); o Calamares pode
+# sobrescrever estes valores conforme a escolha do usuário.
+set -e
+
+# Gera apenas os dois locales suportados.
+sed -i -E 's/^# *(pt_BR\.UTF-8 UTF-8)/\1/; s/^# *(en_US\.UTF-8 UTF-8)/\1/' /etc/locale.gen
+grep -q '^pt_BR.UTF-8 UTF-8' /etc/locale.gen || echo 'pt_BR.UTF-8 UTF-8' >> /etc/locale.gen
+grep -q '^en_US.UTF-8 UTF-8' /etc/locale.gen || echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+locale-gen
+
+cat > /etc/default/locale <<'EOF'
+LANG=pt_BR.UTF-8
+LANGUAGE=pt_BR:pt:en
+EOF
+
+cat > /etc/default/keyboard <<'EOF'
+XKBMODEL="abnt2"
+XKBLAYOUT="br"
+XKBVARIANT=""
+XKBOPTIONS=""
+BACKSPACE="guess"
+EOF
+
+ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+echo 'America/Sao_Paulo' > /etc/timezone

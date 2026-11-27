@@ -1,0 +1,9 @@
+# Decisão 0002: backports com prioridade baixa; só o kernel vem de lá.
+# Padrões genéricos: o kernel de backports já está na série 7.x.
+Package: *
+Pin: release n=trixie-backports
+Pin-Priority: 100
+
+Package: linux-image-* linux-headers-* linux-kbuild-* linux-base
+Pin: release n=trixie-backports
+Pin-Priority: 500

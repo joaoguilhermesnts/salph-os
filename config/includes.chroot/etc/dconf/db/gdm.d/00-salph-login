@@ -1,0 +1,10 @@
+# SALPH OS — tela de login (GDM)
+[org/gnome/login-screen]
+logo='/usr/share/pixmaps/salph-os-logo-text.svg'
+
+[org/gnome/desktop/interface]
+font-name='Inter 11'
+accent-color='blue'
+
+[org/gnome/desktop/sound]
+theme-name='salph'

@@ -1,0 +1,35 @@
+# Drivers e otimização (Phase 4) — tudo Debian main.
+
+# Vídeo: Mesa (OpenGL vem com o GNOME), Vulkan e aceleração de vídeo (VA-API)
+mesa-vulkan-drivers
+mesa-va-drivers
+intel-media-va-driver
+i965-va-driver
+vainfo
+# GPU híbrida: "Iniciar com a placa dedicada" no GNOME
+switcheroo-control
+
+# Atualização de firmware (UEFI, SSD, periféricos) via GNOME Software
+fwupd
+
+# Diagnóstico de hardware e Secure Boot
+pciutils
+usbutils
+mokutil
+libnotify-bin
+
+# Impressão sem driver (IPP Everywhere / USB)
+cups
+ipp-usb
+
+# Energia: perfis no menu do GNOME; thermald só é iniciado em notebooks Intel
+power-profiles-daemon
+thermald
+iio-sensor-proxy
+
+# Desempenho
+systemd-zram-generator
+
+# Segurança
+unattended-upgrades
+ufw

@@ -1,0 +1,28 @@
+#!/bin/sh
+# Serviços: habilita os do SALPH OS e desliga o que não é necessário num desktop.
+# Cada item tem o motivo em docs/decisions/0007-drivers-and-tuning.md.
+set -e
+
+disable_if_present() {
+	if systemctl list-unit-files "$1" >/dev/null 2>&1; then
+		systemctl disable "$1" || true
+	fi
+}
+
+# Serviços próprios
+systemctl enable salph-hwprofile.service
+systemctl enable salph-firstboot.service
+systemctl enable salph-kernel-update.timer
+
+# Atrasava o boot esperando a rede; o desktop não precisa disso.
+disable_if_present NetworkManager-wait-online.service
+# Adiciona impressoras da rede sozinho (histórico de falhas de segurança);
+# impressoras IPP continuam funcionando pelo GNOME sem ele.
+disable_if_present cups-browsed.service
+# thermald é iniciado sob demanda por salph-hwprofile em notebooks Intel.
+disable_if_present thermald.service
+
+# TRIM semanal em SSDs
+systemctl enable fstrim.timer || true
+
+chmod 0755 /usr/lib/salph-os/hwprofile /usr/lib/salph-os/firstboot /usr/lib/salph-os/kernel-update

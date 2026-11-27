@@ -1,0 +1,8 @@
+// SALPH OS — atualizações de segurança automáticas (unattended-upgrades).
+// A configuração padrão do Debian (50unattended-upgrades) já instala só o
+// repositório de segurança; aqui apenas ligamos a execução diária.
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::AutocleanInterval "7";
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "true";
+Unattended-Upgrade::Automatic-Reboot "false";

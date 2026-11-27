@@ -1,0 +1,14 @@
+#!/bin/sh
+# SALPH OS — atualiza o kernel de trixie-backports.
+# O unattended-upgrades cuida só do repositório de segurança do Debian, que
+# não cobre o kernel de backports. Aqui atualizamos apenas o metapacote do
+# kernel (e headers, se instalados); o pinning garante que nada mais venha de
+# backports.
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+APT="apt-get -q -o DPkg::Lock::Timeout=900 -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold"
+
+$APT update
+$APT -y install --only-upgrade linux-image-amd64 linux-headers-amd64

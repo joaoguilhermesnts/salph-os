@@ -1,0 +1,4 @@
+#!/bin/sh
+# Chamado por `lb build`. Grava log completo em build.log.
+set -e
+lb build noauto "${@}" 2>&1 | tee build.log

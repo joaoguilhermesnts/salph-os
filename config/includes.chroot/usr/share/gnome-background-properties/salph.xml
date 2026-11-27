@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wallpapers SYSTEM "gnome-wp-list.dtd">
+<wallpapers>
+  <wallpaper deleted="false">
+    <name>SALPH Dunas</name>
+    <filename>/usr/share/backgrounds/salph/salph-dunes-day.svg</filename>
+    <filename-dark>/usr/share/backgrounds/salph/salph-dunes-night.svg</filename-dark>
+    <options>zoom</options>
+    <shade_type>solid</shade_type>
+    <pcolor>#3a6ea5</pcolor>
+    <scolor>#1b2156</scolor>
+  </wallpaper>
+</wallpapers>

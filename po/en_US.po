@@ -1,0 +1,122 @@
+# English translations for SALPH package.
+# Copyright (C) 2026 THE SALPH'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SALPH OS package.
+# Automatically generated, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SALPH OS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-27 14:51-0300\n"
+"PO-Revision-Date: 2026-11-27 14:24-0300\n"
+"Last-Translator: SALPH OS project\n"
+"Language-Team: none\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/salph-drivers:13
+msgid "Usage: salph-drivers [--check|--install-nvidia|--notify]"
+msgstr "Usage: salph-drivers [--check|--install-nvidia|--notify]"
+
+#: src/salph-drivers:14
+msgid "  --check           show the graphics cards and the recommended driver"
+msgstr "  --check           show the graphics cards and the recommended driver"
+
+#: src/salph-drivers:15
+msgid "  --install-nvidia  install the proprietary NVIDIA driver (needs administrator)"
+msgstr "  --install-nvidia  install the proprietary NVIDIA driver (needs administrator)"
+
+#: src/salph-drivers:16
+msgid "  --notify          desktop notification if an NVIDIA card has no driver"
+msgstr "  --notify          desktop notification if an NVIDIA card has no driver"
+
+#: src/salph-drivers:33
+msgid "Graphics cards:"
+msgstr "Graphics cards:"
+
+#: src/salph-drivers:36
+msgid "No NVIDIA card found. The free drivers already included are the right choice."
+msgstr "No NVIDIA card found. The free drivers already included are the right choice."
+
+#: src/salph-drivers:38
+msgid "The NVIDIA proprietary driver is installed."
+msgstr "The NVIDIA proprietary driver is installed."
+
+#: src/salph-drivers:40
+msgid "NVIDIA card found. To install the proprietary driver run:"
+msgstr "NVIDIA card found. To install the proprietary driver run:"
+
+#: src/salph-drivers:51
+msgid "No NVIDIA card found; nothing to do."
+msgstr "No NVIDIA card found; nothing to do."
+
+#: src/salph-drivers:64
+msgid "This card is not supported by the driver available in SALPH OS. Keep the free driver."
+msgstr "This card is not supported by the driver available in SALPH OS. Keep the free driver."
+
+#: src/salph-drivers:69
+msgid "The NVIDIA kernel module failed to build. See: dkms status"
+msgstr "The NVIDIA kernel module failed to build. See: dkms status"
+
+#: src/salph-drivers:73
+msgid "Secure Boot is on: the driver key must be enrolled once."
+msgstr "Secure Boot is on: the driver key must be enrolled once."
+
+#: src/salph-drivers:74
+msgid "Choose a temporary password now; after rebooting, pick 'Enroll MOK' on the blue screen and type it."
+msgstr "Choose a temporary password now; after rebooting, pick 'Enroll MOK' on the blue screen and type it."
+
+#: src/salph-drivers:76
+msgid "Run later: sudo mokutil --import /var/lib/dkms/mok.pub"
+msgstr "Run later: sudo mokutil --import /var/lib/dkms/mok.pub"
+
+#: src/salph-drivers:79
+msgid "Done. Restart the computer to use the NVIDIA driver."
+msgstr "Done. Restart the computer to use the NVIDIA driver."
+
+#: src/salph-drivers:92
+msgid "NVIDIA graphics card detected"
+msgstr "NVIDIA graphics card detected"
+
+#: src/salph-drivers:93
+msgid "An optional proprietary driver is available. Open a terminal and run: salph-drivers --install-nvidia"
+msgstr "An optional proprietary driver is available. Open a terminal and run: salph-drivers --install-nvidia"
+
+#: src/salph-install:13
+msgid "The installer only runs from the SALPH OS live session."
+msgstr "The installer only runs from the SALPH OS live session."
+
+#: src/salph-locale:13
+msgid "Usage: salph-locale <pt-BR|en-US> [--keyboard br|us] [--user-only]"
+msgstr "Usage: salph-locale <pt-BR|en-US> [--keyboard br|us] [--user-only]"
+
+#: src/salph-locale:14
+msgid "  pt-BR        Brazilian Portuguese"
+msgstr "  pt-BR        Brazilian Portuguese"
+
+#: src/salph-locale:15
+msgid "  en-US        English (United States)"
+msgstr "  en-US        English (United States)"
+
+#: src/salph-locale:16
+msgid "  --keyboard   also change the keyboard layout"
+msgstr "  --keyboard   also change the keyboard layout"
+
+#: src/salph-locale:17
+msgid "  --user-only  change only the current user, not the system default"
+msgstr "  --user-only  change only the current user, not the system default"
+
+#: src/salph-locale:41
+msgid "Unsupported keyboard layout: %s"
+msgstr "Unsupported keyboard layout: %s"
+
+#: src/salph-locale:60
+msgid "Language set to %s."
+msgstr "Language set to %s."
+
+#: src/salph-locale:61
+msgid "Log out and log back in to apply the change."
+msgstr "Log out and log back in to apply the change."

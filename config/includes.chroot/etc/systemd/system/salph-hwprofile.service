@@ -1,0 +1,12 @@
+[Unit]
+Description=SALPH OS hardware profile (laptop power settings)
+After=systemd-sysctl.service
+Before=display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/salph-os/hwprofile
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

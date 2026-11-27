@@ -1,0 +1,33 @@
+[Plymouth Theme]
+Name=SALPH OS
+Description=SALPH OS boot splash (spinner animation from plymouth-themes, SALPH logo)
+ModuleName=two-step
+
+[two-step]
+Font=Inter 12
+TitleFont=Inter Light 30
+ImageDir=/usr/share/plymouth/themes/salph
+DialogHorizontalAlignment=.5
+DialogVerticalAlignment=.382
+TitleHorizontalAlignment=.5
+TitleVerticalAlignment=.382
+HorizontalAlignment=.5
+VerticalAlignment=.75
+WatermarkHorizontalAlignment=.5
+WatermarkVerticalAlignment=.45
+Transition=none
+TransitionDuration=0.0
+BackgroundStartColor=0x10132f
+BackgroundEndColor=0x10132f
+ProgressBarBackgroundColor=0x3b4bb0
+ProgressBarForegroundColor=0xffffff
+MessageBelowAnimation=true
+
+[boot-up]
+UseEndAnimation=false
+
+[shutdown]
+UseEndAnimation=false
+
+[reboot]
+UseEndAnimation=false

@@ -1,0 +1,12 @@
+[Unit]
+Description=SALPH OS backports kernel update
+After=network-online.target apt-daily.service
+Wants=network-online.target
+# Não roda na sessão live.
+ConditionKernelCommandLine=!boot=live
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/salph-os/kernel-update
+Nice=10
+IOSchedulingClass=idle

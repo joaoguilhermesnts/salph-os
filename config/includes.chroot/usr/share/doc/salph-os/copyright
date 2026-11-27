@@ -1,0 +1,28 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: SALPH OS
+Comment: SALPH OS is based on Debian and is not affiliated with or endorsed by
+ the Debian Project. Licenses of Debian packages are in
+ /usr/share/doc/<package>/copyright.
+
+Files: /usr/bin/salph-* /usr/lib/salph-os/* /etc/calamares/*
+ /usr/share/gnome-shell/extensions/salph-look@salph-os.org/*
+ /etc/dconf/db/*/0*-salph-* /etc/systemd/system/salph-*
+Copyright: SALPH OS project
+License: GPL-3.0-or-later
+ On Debian systems, the full text is in /usr/share/common-licenses/GPL-3.
+
+Files: /usr/share/backgrounds/salph/* /usr/share/pixmaps/salph-os-*
+ /usr/share/icons/hicolor/scalable/apps/salph-os.svg /usr/share/sounds/salph/*
+ /usr/share/plymouth/themes/salph/watermark.png /etc/calamares/branding/salph/*.png
+Copyright: SALPH OS project
+License: CC-BY-SA-4.0
+ https://creativecommons.org/licenses/by-sa/4.0/
+ The name "SALPH OS" and the SALPH logo identify the project; modified
+ redistributions must use a different name and logo.
+
+Files: /usr/share/plymouth/themes/salph/throbber-*.png
+ /usr/share/plymouth/themes/salph/animation-*.png
+ /usr/share/plymouth/themes/salph/{bullet,capslock,entry,keyboard,keymap-render,lock}.png
+Copyright: Plymouth authors (copied from the Debian plymouth-themes "spinner" theme)
+License: GPL-2.0-or-later
+ See /usr/share/doc/plymouth-themes/copyright.

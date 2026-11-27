@@ -1,0 +1,26 @@
+#!/bin/sh
+# Instalador e tela de boot.
+set -e
+
+SALPH_VERSION="$(cat /usr/share/salph-os/version 2>/dev/null || echo dev)"
+
+# 1. Versão no branding do Calamares
+sed -i "s/@VERSION@/${SALPH_VERSION}/g" /etc/calamares/branding/salph/branding.desc
+
+# 2. Metapacotes do GRUB para o instalador escolher conforme o firmware.
+#    São conflitantes entre si, então ficam guardados e não instalados.
+mkdir -p /var/cache/salph-os/bootloader
+cd /var/cache/salph-os/bootloader
+apt-get download grub-pc grub-efi-amd64
+ls -1 grub-pc_*.deb grub-efi-amd64_*.deb
+cd /
+
+# 3. Tela de boot (Plymouth): animação do tema "spinner" + logo SALPH.
+THEME=/usr/share/plymouth/themes/salph
+for f in /usr/share/plymouth/themes/spinner/*.png; do
+	cp -n "$f" "$THEME/"
+done
+plymouth-set-default-theme salph
+update-initramfs -u -k all
+
+chmod 0755 /usr/lib/salph-os/installer/prepare /usr/lib/salph-os/installer/finish /usr/bin/salph-install

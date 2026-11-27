@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Install SALPH OS
+Name[pt_BR]=Instalar o SALPH OS
+Comment=Install SALPH OS on this computer
+Comment[pt_BR]=Instalar o SALPH OS neste computador
+Exec=salph-install
+Icon=salph-os
+Terminal=false
+Categories=System;
+Keywords=installer;calamares;
+Keywords[pt_BR]=instalador;instalar;calamares;

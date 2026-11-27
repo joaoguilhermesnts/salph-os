@@ -1,0 +1,61 @@
+#!/bin/sh
+# salph-locale — alterna o idioma do SALPH OS entre pt-BR e en-US sem reinstalar.
+# salph-locale — switches SALPH OS language between pt-BR and en-US without reinstalling.
+# SPDX-License-Identifier: GPL-3.0-or-later
+set -e
+
+. gettext.sh
+TEXTDOMAIN=salph-os
+TEXTDOMAINDIR=/usr/share/locale
+export TEXTDOMAIN TEXTDOMAINDIR
+
+usage() {
+	gettext "Usage: salph-locale <pt-BR|en-US> [--keyboard br|us] [--user-only]"; echo
+	gettext "  pt-BR        Brazilian Portuguese"; echo
+	gettext "  en-US        English (United States)"; echo
+	gettext "  --keyboard   also change the keyboard layout"; echo
+	gettext "  --user-only  change only the current user, not the system default"; echo
+}
+
+LANG_CODE=""
+KEYBOARD=""
+USER_ONLY=0
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+		pt-BR|pt_BR) LANG_CODE=pt_BR.UTF-8; shift ;;
+		en-US|en_US) LANG_CODE=en_US.UTF-8; shift ;;
+		--keyboard)  [ $# -ge 2 ] || { usage >&2; exit 2; }; KEYBOARD="$2"; shift 2 ;;
+		--user-only) USER_ONLY=1; shift ;;
+		-h|--help)   usage; exit 0 ;;
+		*)           usage >&2; exit 2 ;;
+	esac
+done
+
+[ -n "$LANG_CODE" ] || { usage >&2; exit 2; }
+
+case "$KEYBOARD" in
+	"") ;;
+	br) XKB_LAYOUT=br; XKB_MODEL=abnt2 ;;
+	us) XKB_LAYOUT=us; XKB_MODEL=pc105 ;;
+	*)  printf "$(gettext 'Unsupported keyboard layout: %s')\n" "$KEYBOARD" >&2; exit 2 ;;
+esac
+
+# Padrão do sistema (polkit pede a senha de administrador quando necessário).
+if [ "$USER_ONLY" -eq 0 ]; then
+	localectl set-locale "LANG=$LANG_CODE"
+	if [ -n "$KEYBOARD" ]; then
+		localectl set-x11-keymap "$XKB_LAYOUT" "$XKB_MODEL"
+	fi
+fi
+
+# Preferência do usuário atual no AccountsService (usada pelo GDM e pelo GNOME).
+busctl call org.freedesktop.Accounts "/org/freedesktop/Accounts/User$(id -u)" \
+	org.freedesktop.Accounts.User SetLanguage s "$LANG_CODE" >/dev/null
+
+if [ -n "$KEYBOARD" ] && command -v gsettings >/dev/null 2>&1; then
+	gsettings set org.gnome.desktop.input-sources sources "[('xkb', '$XKB_LAYOUT')]" || true
+fi
+
+printf "$(gettext 'Language set to %s.')\n" "$LANG_CODE"
+gettext "Log out and log back in to apply the change."; echo

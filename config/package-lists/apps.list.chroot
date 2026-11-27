@@ -1,0 +1,15 @@
+# Aplicativos padrão (Phase 3)
+firefox-esr
+firefox-esr-l10n-pt-br
+
+libreoffice-writer
+libreoffice-calc
+libreoffice-impress
+libreoffice-gnome
+libreoffice-l10n-pt-br
+libreoffice-help-pt-br
+libreoffice-help-en-us
+
+gnome-software
+gnome-software-plugin-flatpak
+flatpak

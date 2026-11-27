@@ -1,0 +1,17 @@
+# Firmware e microcódigo (componente non-free-firmware do Debian)
+# Licenças: ver THIRD_PARTY.md. Revisar em Phase 4 conforme hardware real.
+firmware-linux-free
+firmware-misc-nonfree
+firmware-amd-graphics
+firmware-intel-graphics
+firmware-intel-sound
+firmware-iwlwifi
+firmware-realtek
+firmware-atheros
+firmware-brcm80211
+firmware-libertas
+firmware-sof-signed
+intel-microcode
+amd64-microcode
+bluez
+bluez-firmware

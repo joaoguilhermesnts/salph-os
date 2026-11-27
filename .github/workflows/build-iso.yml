@@ -1,0 +1,109 @@
+# SALPH OS — gera a ISO num container Debian 13 dentro do GitHub Actions.
+# Builds the ISO in a Debian 13 container on GitHub Actions.
+#
+# Disparo manual: aba Actions → "Build ISO" → Run workflow.
+# Resultado: uma Release com a ISO dividida em partes de 1,9 GB (limite de 2 GB
+# por arquivo do GitHub), o .sha256 da ISO inteira e a lista de pacotes.
+name: Build ISO
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Versão / version (ex.: 0.1.0-alpha1)"
+        required: true
+        default: "0.1.0-alpha1"
+  push:
+    tags: [ "v*" ]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-iso
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - name: Version
+        id: v
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            V="${GITHUB_REF_NAME#v}"
+          else
+            V="${{ inputs.version }}"
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "Building SALPH OS $V"
+
+      - name: Free disk space on the runner
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache \
+                      /usr/local/share/boost /usr/local/.ghcup /usr/share/swift
+          sudo docker image prune --all --force >/dev/null
+          df -h /
+
+      - uses: actions/checkout@v4
+
+      - name: Build in Debian 13 container
+        run: |
+          docker run --rm --privileged \
+            -v "$PWD:/build" -w /build \
+            -e VERSION="${{ steps.v.outputs.version }}" \
+            debian:trixie bash -euxc '
+              apt-get update
+              apt-get install -y --no-install-recommends \
+                live-build debootstrap xorriso gettext python3 git ca-certificates \
+                squashfs-tools mtools dosfstools
+              git config --global --add safe.directory /build
+              chmod +x build.sh auto/* tools/*.sh config/hooks/live/* || true
+              ./build.sh --version "$VERSION"
+              chown -R '"$(id -u):$(id -g)"' out build.log || true
+            '
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-${{ steps.v.outputs.version }}
+          path: build.log
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Split ISO into parts under 2 GB
+        run: |
+          cd out
+          ISO="$(ls *.iso)"
+          ls -lh
+          split -b 1900M -d -a 2 "$ISO" "$ISO.part"
+          sha256sum "$ISO".part* > "$ISO.parts.sha256"
+          rm "$ISO"
+          ls -lh
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          V: ${{ steps.v.outputs.version }}
+        run: |
+          cd out
+          ISO="salph-os-$V-amd64.hybrid.iso"
+          cat > notes.md <<EOF
+          SALPH OS $V — build automático / automated build (não testado / untested).
+
+          **Juntar as partes / Join the parts**
+          - Windows (cmd): \`copy /b $ISO.part00+$ISO.part01 $ISO\` (inclua todas as partes / include every part)
+          - Linux/macOS: \`cat $ISO.part* > $ISO\`
+
+          **Conferir / Verify:** \`sha256sum -c $ISO.sha256\` (Linux) ou / or \`certutil -hashfile $ISO SHA256\` (Windows) e compare com / and compare with \`$ISO.sha256\`.
+
+          Commit: ${{ github.sha }}
+          EOF
+          gh release delete "v$V" --yes --cleanup-tag 2>/dev/null || true
+          shopt -s nullglob
+          FILES=(./*.part* ./*.sha256 ./*.packages)
+          gh release create "v$V" --prerelease --title "SALPH OS $V" --notes-file notes.md \
+            --target "${{ github.sha }}" "${FILES[@]}"

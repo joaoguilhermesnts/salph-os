@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 2160" width="3840" height="2160" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.00" stop-color="#7fbde8"/>
+      <stop offset="0.50" stop-color="#bcdcf0"/>
+      <stop offset="1.00" stop-color="#f6d7b8"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#fff3d6" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#fff3d6" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#fff3d6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="d0" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#efc3a4"/>
+      <stop offset="1" stop-color="#e2a98a"/>
+    </linearGradient>
+    <linearGradient id="d1" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#e2a383"/>
+      <stop offset="1" stop-color="#cf8a6c"/>
+    </linearGradient>
+    <linearGradient id="d2" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#cc8566"/>
+      <stop offset="1" stop-color="#b56c55"/>
+    </linearGradient>
+    <linearGradient id="d3" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0" stop-color="#a95f4d"/>
+      <stop offset="1" stop-color="#8e4c41"/>
+    </linearGradient>
+  </defs>
+  <rect width="3840" height="2160" fill="url(#sky)"/>
+  <circle cx="2620" cy="900" r="840" fill="url(#glow)"/>
+  <circle cx="2620" cy="900" r="210" fill="#fff3d6" fill-opacity="0.95"/>
+  <path d="M0 1300 C600 1150 1200 1260 1900 1180 S3200 1040 3840 1200 V2160 H0 Z" fill="url(#d0)"/>
+  <path d="M0 1300 C600 1150 1200 1260 1900 1180 S3200 1040 3840 1200" fill="none" stroke="#ffffff" stroke-opacity="0.10" stroke-width="6"/>
+  <path d="M0 1500 C700 1370 1400 1610 2100 1450 S3300 1340 3840 1500 V2160 H0 Z" fill="url(#d1)"/>
+  <path d="M0 1500 C700 1370 1400 1610 2100 1450 S3300 1340 3840 1500" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="6"/>
+  <path d="M0 1780 C900 1590 1700 1900 2600 1720 S3500 1690 3840 1780 V2160 H0 Z" fill="url(#d2)"/>
+  <path d="M0 1780 C900 1590 1700 1900 2600 1720 S3500 1690 3840 1780" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="6"/>
+  <path d="M0 2000 C1000 1840 2000 2110 3000 1950 S3700 1940 3840 2010 V2160 H0 Z" fill="url(#d3)"/>
+  <path d="M0 2000 C1000 1840 2000 2110 3000 1950 S3700 1940 3840 2010" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="6"/>
+</svg>

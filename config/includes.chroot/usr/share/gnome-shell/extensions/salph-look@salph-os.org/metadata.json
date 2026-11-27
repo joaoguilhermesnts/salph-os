@@ -1,0 +1,7 @@
+{
+  "uuid": "salph-look@salph-os.org",
+  "name": "SALPH Look",
+  "description": "Visual da barra superior, menus e dock do SALPH OS. / SALPH OS top bar, menu and dock styling.",
+  "shell-version": ["48"],
+  "version": 1
+}

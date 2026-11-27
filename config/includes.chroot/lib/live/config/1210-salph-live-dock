@@ -1,0 +1,11 @@
+#!/bin/sh
+# live-config: coloca "Instalar o SALPH OS" como primeiro ícone da dock na
+# sessão live. Gerado em tempo de boot, então não existe no squashfs nem no
+# sistema instalado.
+set -e
+
+cat > /etc/dconf/db/local.d/10-salph-live <<'EOF'
+[org/gnome/shell]
+favorite-apps=['salph-install.desktop', 'firefox-esr.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Console.desktop', 'org.gnome.Terminal.desktop', 'libreoffice-writer.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Software.desktop', 'org.gnome.Settings.desktop']
+EOF
+dconf update

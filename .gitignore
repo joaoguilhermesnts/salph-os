@@ -1,0 +1,28 @@
+# Artefatos do live-build
+/.build/
+/cache/
+/chroot/
+/binary/
+/local/
+/out/
+/build.log
+*.iso
+*.packages
+*.contents
+*.files
+*.zsync
+/config/binary
+/config/bootstrap
+/config/chroot
+/config/common
+/config/source
+# Gerados por tools/l10n.sh stage e build.sh
+/config/includes.chroot/usr/bin/
+/config/includes.chroot/usr/share/locale/
+/config/includes.chroot/usr/share/salph-os/version
+/config/includes.chroot/usr/share/sounds/salph/stereo/
+/config/includes.chroot/etc/calamares/branding/salph/*.png
+/config/includes.chroot/usr/share/plymouth/themes/salph/*.png
+/config/includes.chroot/usr/share/doc/salph-os/*
+!/config/includes.chroot/usr/share/doc/salph-os/copyright
+/tests/vm/

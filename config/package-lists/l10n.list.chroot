@@ -1,0 +1,10 @@
+# Idiomas / languages (Phase 2) — pt-BR padrão, en-US secundário.
+# Não usar task-brazilian-portuguese-desktop: com Recommends ele puxa
+# LibreOffice e Firefox l10n antes de decidirmos os apps (Phase 3).
+locales
+gettext-base
+hunspell-pt-br
+hunspell-en-us
+manpages-pt-br
+gnome-initial-setup
+xdg-user-dirs-gtk
