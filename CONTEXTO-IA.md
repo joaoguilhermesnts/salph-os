@@ -114,8 +114,11 @@ Apple e sem usar "macOS" como marca. Uso pessoal e distribuição para outras pe
   - Avisos normais de build em chroot: `grub-probe` e `cryptsetup` sem disco real.
   - Falhou só a publicação da Release: o glob `*.part*` casava também com `*.parts.sha256` (upload duplicado, HTTP 404). **Corrigido** para `*.part[0-9][0-9]`.
   - Também foi corrigido o volume ISO para `SALPH_OS`, porque o nome anterior violava ISO 9660.
-- **2º build (run 46051794131): estava em andamento** quando este documento foi escrito.
-  Conferir com `gh run list --workflow build-iso.yml` e `gh release view v0.1.0-alpha1`.
+- **2º build (run 46051794131): sucesso completo.** Release publicada:
+  https://github.com/joaoguilhermesnts/salph-os/releases/tag/v0.1.0-alpha1
+  Arquivos: `salph-os-0.1.0-alpha1-amd64.hybrid.iso.part00` (1,99 GB), `.part01` (161 MB),
+  `.parts.sha256`, `.iso.sha256` (da ISO inteira) e `.packages` (lista de pacotes).
+  **A ISO existe, mas ainda não foi testada** (nenhum boot feito).
 - Para juntar as partes no Windows:
   `cmd /c copy /b <iso>.part00+<iso>.part01 <iso>`
 - A ISO de **código-fonte** (`--source`) **não** é gerada no workflow. Só será necessária ao distribuir publicamente.
@@ -141,7 +144,7 @@ O tema spinner do Plymouth **não tem** `watermark.png`.
 
 ## 8. Próximos passos sugeridos
 
-1. Confirmar que o 2º build publicou a Release; baixar e juntar as partes.
+1. Baixar as 2 partes da Release `v0.1.0-alpha1`, juntar e conferir o SHA256.
 2. Testar em VM seguindo `docs/testing.md` e rodar `tests/smoke-test.sh` no sistema instalado.
 3. Corrigir o que aparecer, em ciclos de build pelo Actions (cada um leva uns 40 min).
 4. Definir o **PC físico de referência** e coletar `lspci -nn` e `lsusb` para ajustar firmware e drivers.
@@ -173,5 +176,5 @@ O tema spinner do Plymouth **não tem** `watermark.png`.
 5. "Start Phase 5" → Calamares com configuração própria (o Debian não fornece config Qt6), Plymouth, GPG, Ventoy.
 6. "Start Phase 6" → confirmou as licenças; testes e docs.
 7. "Gerou a ISO?" → não: o PC não tem Linux nem admin.
-8. "Tem outro jeito?" → escolheu o **GitHub Actions** (já logado no `gh`). Criado o repositório privado, push, 1º build gerou a ISO (só falhou a publicação), corrigido, 2º build disparado.
+8. "Tem outro jeito?" → escolheu o **GitHub Actions** (já logado no `gh`). Criado o repositório privado, push, 1º build gerou a ISO (só falhou a publicação), corrigido, **2º build publicou a Release v0.1.0-alpha1**.
 9. O usuário confirmou que só queria o código no GitHub (a ISO de source da GPL fica para a distribuição) e pediu este documento.
